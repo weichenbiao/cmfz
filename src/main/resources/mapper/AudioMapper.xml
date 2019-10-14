@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wcb.mapper.AudioMapper">
+
+    <select id="queryByPage" resultType="Audio">
+        select id,title,size,timelong,print_time printTime,audio
+        from audio where album_id =#{aid} limit #{start},#{rows}
+    </select>
+
+    <select id="queryCount" resultType="java.lang.Integer">
+        select count(id) from audio where album_id=#{aid}
+    </select>
+
+    <insert id="add">
+        insert into audio values(#{id},#{title},#{size},#{timelong},#{printTime},#{audio},#{audioId})
+    </insert>
+
+    <update id="updateAudio">
+        update audio set size=#{size},timelong=#{timelong} where id = #{id}
+    </update>
+    <update id="updateAudio1">
+        update audio set audio=#{audio} where id = #{id}
+    </update>
+
+    <delete id="delete">
+        delete from audio where id in
+        <foreach collection="array" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <update id="update">
+        update audio set title=#{title} where id=#{id}
+    </update>
+
+    <delete id="deleteAudio">
+        delete from audio where album_id in
+        <foreach collection="array" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+
+</mapper>

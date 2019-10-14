@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wcb.mapper.SlideMapper">
+
+    <select id="queryAll" resultType="slide">
+        select id,title,status,intr,creat_time,imgpath from slide
+    </select>
+
+    <select id="queryByPage" resultType="slide">
+        select id,title,status,intr,creat_time,imgpath from slide limit #{start},#{rows}
+    </select>
+
+    <select id="count" resultType="java.lang.Integer">
+        select count(id) from slide
+    </select>
+
+
+    <insert id="add" parameterType="slide">
+        insert into slide(id,title,status,intr,creat_time,imgpath) values(#{id},#{title},#{status},#{intr},#{creat_time},#{imgpath})
+    </insert>
+
+    <update id="update" parameterType="slide">
+        update slide set title=#{title},status=#{status},intr=#{intr},creat_time=#{creat_time} where id = #{id}
+    </update>
+
+    <update id="updatePath">
+        update slide set imgpath=#{name} where id = #{id}
+    </update>
+
+
+    <delete id="delete">
+        delete from slide where id in
+        <foreach collection="array" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

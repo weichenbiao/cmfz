@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wcb.mapper.AlbumMapper">
+
+    <select id="queryByPage" resultType="Album">
+        select id,title,score,author,beam,count,content,status,print_time printTime ,up_time upTime, photo from album
+        limit #{start},#{row}
+    </select>
+
+    <select id="count" resultType="java.lang.Integer">
+        select count(id) from album
+    </select>
+
+    <insert id="add">
+        insert into album
+        values(#{id},#{title},#{score},#{author},#{beam},#{count},#{content},#{status},#{printTime},#{upTime},#{photo})
+    </insert>
+
+    <delete id="delete">
+        delete from album where id in
+        <foreach collection="array" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <update id="updatePhoto">
+        update album set photo=#{photo} where id =#{id}
+    </update>
+
+    <update id="update">
+        update album set title=#{title},score=#{score},author=#{author},beam=#{beam},count=#{count},content=#{content},
+          status=#{status} where id = #{id}
+    </update>
+    <update id="updateCount">
+        update album set count=#{count} where id=#{id}
+    </update>
+
+    <select id="queryByCount" resultType="java.lang.Integer">
+        select count from album WHERE id= #{id};
+    </select>
+</mapper>
